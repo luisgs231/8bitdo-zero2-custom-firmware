@@ -1,0 +1,5 @@
+build/
+out/
+firmware/
+blob/blob.bin
+analysis/out/

@@ -1,0 +1,73 @@
+# address   name                   what it is
+
+01018268    memcpy                 # the patches' memcpy
+0101829a    memzero                # the patches' memzero
+01018580    adc_once               # one measurement: 0x7f, 0xaa, channel | 0x30, then the u16 at 0xC896E
+010185c0    adc_sample             # 20 of those, sorted, the middle 8 averaged and clamped
+0101879c    adc_init               # asserts the channel 0 to 7 and the gain 0 to 3, brings the core up first
+01018ac8    ble_disconnect
+01018b1c    bt_disconnect
+01018c70    core_event_read        # hands loop_once the next core event's opcode
+01018e0c    core_event_flag        # the event handler that sets a command's answer bit
+0101986c    loop_once              # read and dispatch one core event, the run loop's data source
+01019db8    send_b0                # the core's 0xb0 report helper
+01019f44    set_ble_addr
+0101a2ac    cmd_42
+0101a304    set_vis                # command 0x02, the visibility bits
+0101a570    startup
+0101a730    run_loop               # runs BTstack's embedded run loop and never returns
+0101a760    data_source_add
+0101b2c4    android_host_data      # event 0xb2 in Android mode
+0101bbc4    gpio_read
+0101bc7c    gpio_clear
+0101bd48    gpio_set
+0101c260    battery_byte           # 0x87 above 50 %, 0x86 above 20 %, 0x85 above 10 %, 0x84 below
+0101c288    link_byte              # the classic link byte, and 0x20682 for BLE
+0101c2a8    classic_addr_for_mode  # command 0x00, a different address per mode
+0101c418    poll_flags
+0101c874    c874                   # the patches' own name for it
+0101c900    c900                   # the patches' own name for it
+0101ca40    poll_buttons           # polls the buttons and calls report_build on a change
+0101db3c    power_off_idle         # powers off at the limit in 0x20194
+0101e080    report3_build          # report 3: a1 03, then the buttons
+0101e82c    hid_control            # the HID control channel: GET_REPORT, GET_IDLE, SET_REPORT
+0101eb50    ipc_queue_write        # the command queue writer, which takes no lock
+0101ee60    core_bringup           # clears core memory, resets the core, loads the blob
+0101efa0    always_one             # a stub that returns 1
+0101f080    usb_charging           # bit 0x40 of the charge register
+0101f0a0    usb_powered            # the power state byte is 2 or 3
+0101f1d4    report_build
+0101f96a    log_empty              # the log function that does nothing, which is why its strings are free space
+0101fc58    mode_setup             # 0 Switch, 1 XInput, 2 macOS, 3 Android, 4 keyboard
+0101ffac    pair_write_back        # the core's 170 bytes of pairing records to flash
+0101ffc8    host_store             # the mode's new host, 28 bytes
+010202c8    ipc_send
+010202f2    send_battery_report    # a1 04 <byte> whenever the byte changes
+01020316    ipc_send_long          # the same for 0xa0 and 0xb0
+01020688    protocol_report_byte   # 0x60, 0x40 or 0x20, plus 0x10 while charging
+010206f0    switch_host_data       # event 0xb2 in Switch mode
+01020b90    now
+01020b9c    elapsed
+01020c60    power_off              # sets 0x20168 and saves the host table
+01022844    battery_adc            # reads the ADC and scales it to millivolts into 0x201C8
+010228bc    battery_percent        # millivolts to the percentage
+01022938    idle_limit_set         # 90000 with a link, less without
+01022ea0    switch_link_key        # "WakeUp_Switch"
+01023004    xinput_host_data       # event 0xb2 in XInput mode
+01023148    reconnect_host         # "Reconnect_Host", and the power-off when it keeps failing
+01023290    restart                # restarts the program
+01023352    sdk_assert             # the SDK's check, with its source path and line
+01023398    dma_copy               # channel 6, used to load the core blob
+010233b8    core_load_blob         # the microcode through the port at 0xC8025, then each record
+01023ad0    timer_remove
+01023e76    execute                # BTstack's run loop body, reached only through a pointer
+0102415c    rom_delay_a            # a delay through a ROM pointer; the unit is not established
+0102416c    rom_delay_b            # the other one
+010242f0    led_choose             # decides the pattern, and asks one question about the links
+01024584    led_pattern            # the pattern engine, reached only through a pointer
+010232bc    led_set                # led_set(mask, value), three channels over three GPIO bytes
+01024f48    main                   # whose own loop is never reached
+01025018    flash_read             # a ROM function
+01025054    flash_erase            # calls a ROM function pointer
+0102507c    flash_write
+010250c0    read_uid               # fills 6 bytes, b0 to b2 XORed with b5

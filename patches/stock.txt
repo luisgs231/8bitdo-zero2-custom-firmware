@@ -1,0 +1,2 @@
+base firmware/decrypted/zero2_v1.08.s1.bin
+version 108
